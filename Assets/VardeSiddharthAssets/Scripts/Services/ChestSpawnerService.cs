@@ -10,6 +10,10 @@ public class ChestSpawnerService : MonoBehaviour, IGameService
     ChestsList_ScriptableObject ChestsList_Scriptable;
     [SerializeField]
     Transform parentObjectOfChests;
+    [SerializeField]
+    int maxNumberOfChest = 4;
+
+    ChestObjectPool chestObjectPool;
 
     public void RegisterService(TypesOfServices type, IGameService gameService)
     {
@@ -19,8 +23,9 @@ public class ChestSpawnerService : MonoBehaviour, IGameService
     void Start()
     {
         RegisterService(TypesOfServices.ChestSpawner, this);
+        chestObjectPool = new ChestObjectPool();
 
-        for(int i = 0; i < 1; i++)
+        for(int i = 0; i < maxNumberOfChest; i++)
         {
             SpawnChestController();
         }
@@ -31,5 +36,27 @@ public class ChestSpawnerService : MonoBehaviour, IGameService
         ChestController chestController = new ChestController(
                 ChestsList_Scriptable.chestScriptableList[Random.Range(0, ChestsList_Scriptable.chestScriptableList.Count)],
                 chestView, parentObjectOfChests);
+
+        ReturnChestController(chestController);
+    }
+
+    public void ReturnChestController(ChestController chestController)
+    {
+        chestObjectPool.ReturnChestObject(chestController);
+        chestController.Disable();
+    }
+
+    public void GetChestController()
+    {
+        ChestController chestController = chestObjectPool.GetChest();
+
+        if(chestController != null)
+        {
+            chestController.Enable();
+        }
+        else
+        {
+            // show popup about all the slots are full
+        }
     }
 }

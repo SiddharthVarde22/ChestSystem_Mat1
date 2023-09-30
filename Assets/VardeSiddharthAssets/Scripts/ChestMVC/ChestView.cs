@@ -9,6 +9,9 @@ public class ChestView : MonoBehaviour
     [SerializeField]
     Image chestImage;
 
+    [SerializeField]
+    GameObject chestVisual;
+
     public void SetChestController(ChestController chestController)
     {
         this.chestController = chestController;
@@ -17,5 +20,11 @@ public class ChestView : MonoBehaviour
     public void EnableChest(Sprite sprite)
     {
         this.chestImage.sprite = sprite;
+        chestVisual.SetActive(true);
+    }
+
+    public void Disable()
+    {
+        chestVisual.SetActive(false);
     }
 }
