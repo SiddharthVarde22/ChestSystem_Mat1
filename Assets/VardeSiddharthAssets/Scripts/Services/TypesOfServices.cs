@@ -2,5 +2,6 @@
 public enum TypesOfServices
 {
     Events,
-    Resources
+    Resources,
+    ChestSpawner
 }

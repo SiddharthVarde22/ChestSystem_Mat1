@@ -7,7 +7,7 @@ public class EventsService : MonoBehaviour, IGameService
     public event Action<int> OnGemsChangedEvent;
     public event Action<int> OnCoinsChangedEvent;
 
-    private void Start()
+    private void OnEnable()
     {
         RegisterService(TypesOfServices.Events, this);
     }

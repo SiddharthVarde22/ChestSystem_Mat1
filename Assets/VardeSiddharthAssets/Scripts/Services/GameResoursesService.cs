@@ -8,9 +8,13 @@ public class GameResoursesService : MonoBehaviour, IGameService
     public int Coins { get; private set; }
     public int Gems { get; private set; }
 
-    private void Start()
+    private void OnEnable()
     {
         RegisterService(TypesOfServices.Resources, this);
+    }
+
+    private void Start()
+    {
         AddCoins(1000);
         AddGems(100);
     }
