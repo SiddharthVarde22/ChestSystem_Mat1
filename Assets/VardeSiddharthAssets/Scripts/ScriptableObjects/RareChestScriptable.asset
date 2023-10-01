@@ -18,4 +18,4 @@ MonoBehaviour:
   minimumGems: 20
   maximumGems: 40
   timeInMinutes: 10
-  chestSprite: {fileID: 21300000, guid: cdb88fdb0cf46b244a667edaff21c7df, type: 3}
+  chestSprite: {fileID: 21300000, guid: e0229d2be82968c4a98a2df231319d5c, type: 3}
