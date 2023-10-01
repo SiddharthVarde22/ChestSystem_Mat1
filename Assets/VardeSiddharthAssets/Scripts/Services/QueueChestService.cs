@@ -28,8 +28,7 @@ public class QueueChestService : MonoBehaviour, IGameService
             unlockingChestsQueue.Add(chestController);
             chestController.ChangeState(StatesOfChest.Unlocking);
         }
-
-        if(unlockingChestsQueue.Count < maxNumberOfChestToEnque)
+        else if (unlockingChestsQueue.Count < maxNumberOfChestToEnque)
         {
             //unlockingChestsQueue.Enqueue(chestController);
             unlockingChestsQueue.Add(chestController);
@@ -37,20 +36,17 @@ public class QueueChestService : MonoBehaviour, IGameService
         else
         {
             //show popup
+            ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnQueueIsFullEventTrigger();
         }
     }
 
     public void DequeChest()
     {
         ChestController unlockedChest = unlockingChestsQueue[0];
-        unlockingChestsQueue.RemoveAt(0);
         unlockedChest.ChangeState(StatesOfChest.Unlocked);
+        unlockingChestsQueue.RemoveAt(0);
 
-        if (unlockingChestsQueue.Count > 0)
-        {
-            //unlockingChestsQueue.Peek()?.ChangeState(StatesOfChest.Unlocking);
-            unlockingChestsQueue[0]?.ChangeState(StatesOfChest.Unlocking);
-        }
+        UnlockNextChest();
     }
 
     public bool DequeChest(ChestController chestController)
@@ -61,9 +57,18 @@ public class QueueChestService : MonoBehaviour, IGameService
         {
             unlockedChest.ChangeState(StatesOfChest.Unlocked);
             unlockingChestsQueue.Remove(chestController);
+            UnlockNextChest();
             return true;
         }
 
         return false;
+    }
+
+    private void UnlockNextChest()
+    {
+        if (unlockingChestsQueue.Count > 0)
+        {
+            unlockingChestsQueue[0]?.ChangeState(StatesOfChest.Unlocking);
+        }
     }
 }

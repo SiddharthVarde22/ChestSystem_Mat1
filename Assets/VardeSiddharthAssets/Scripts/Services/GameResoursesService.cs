@@ -24,13 +24,16 @@ public class GameResoursesService : MonoBehaviour, IGameService
         ServiceLocator.Instance.Register<GameResoursesService>(type, (GameResoursesService)gameService);
     }
 
-    public void UseGems(int value)
+    public bool UseGems(int value)
     {
         if(Gems >= value)
         {
             Gems -= value;
             CallGemsChanedEvent();
+            return true;
         }
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnNotEnoughResoursesTrigger();
+        return false;
     }
 
     public void AddGems(int value)
@@ -44,13 +47,16 @@ public class GameResoursesService : MonoBehaviour, IGameService
         ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events)?.OnGemsChanged(Gems);
     }
 
-    public void UseCoins(int value)
+    public bool UseCoins(int value)
     {
         if(Coins >= value)
         {
             Coins -= value;
             CallCoinsChangedEvent();
+            return true;
         }
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnNotEnoughResoursesTrigger();
+        return false;
     }
 
     public void AddCoins(int value)

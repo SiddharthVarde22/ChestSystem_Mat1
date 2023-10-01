@@ -26,6 +26,6 @@ public class ChestCollectedState : ChestBaseState
 
     public void ReturnTheChestToPool()
     {
-        ServiceLocator.Instance.GetService<ChestObjectPool>(TypesOfServices.ChestObjectPool).ReturnChestObject(chestController);
+        ServiceLocator.Instance.GetService<ChestSpawnerService>(TypesOfServices.ChestSpawner).ReturnChestController(chestController);
     }
 }

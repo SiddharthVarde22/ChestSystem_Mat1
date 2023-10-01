@@ -14,11 +14,15 @@ public class PopupPanelUI : MonoBehaviour
 
     int requiredGemsToUnlock = 0;
 
+    ChestController selectedChestController;
+
     private void Start()
     {
         closePopupButton.onClick.AddListener(ClosePopupPanelPressed);
         ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnAllSlotsAreFilledEvent += OnChestSlotsFilled;
         ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnChestSelectedEvent += OnChestSelectedEventTriggered;
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnNotEnoughResoursesEvent += OnNotEnoughResoursesTriggered;
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnQueueIsFullEvent += OnQueueFilledTriggered;
 
         unlockButton.onClick.AddListener(onUnlockButtonPressed);
         unlockImmidiateButton.onClick.AddListener(onUnlockImmididiateButtonPressed);
@@ -27,9 +31,28 @@ public class PopupPanelUI : MonoBehaviour
     public void OnChestSlotsFilled()
     {
         popupText.text = "All the Slots are Occupied";
+        DeactivateBottomPopup();
+        popupPanel.SetActive(true);
+    }
+
+    public void OnNotEnoughResoursesTriggered()
+    {
+        popupText.text = "Not Enough Resourses";
+        DeactivateBottomPopup();
+        popupPanel.SetActive(true);
+    }
+
+    public void OnQueueFilledTriggered()
+    {
+        popupText.text = "Queue is Full";
+        DeactivateBottomPopup();
+        popupPanel.SetActive(true);
+    }
+
+    private void DeactivateBottomPopup()
+    {
         unlockButton.gameObject.SetActive(false);
         unlockImmidiateButton.gameObject.SetActive(false);
-        popupPanel.SetActive(true);
     }
 
     public void ClosePopupPanelPressed()
@@ -41,9 +64,11 @@ public class PopupPanelUI : MonoBehaviour
     {
         ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnAllSlotsAreFilledEvent -= OnChestSlotsFilled;
         ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnChestSelectedEvent -= OnChestSelectedEventTriggered;
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnNotEnoughResoursesEvent -= OnNotEnoughResoursesTriggered;
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnQueueIsFullEvent -= OnQueueFilledTriggered;
     }
 
-    public void OnChestSelectedEventTriggered(int remainingTimeToUnlockInMinutes)
+    public void OnChestSelectedEventTriggered(int remainingTimeToUnlockInMinutes, ChestController chestController)
     {
         popupText.text = "Start Unlocking the Chest";
         unlockButton.gameObject.SetActive(true);
@@ -52,17 +77,19 @@ public class PopupPanelUI : MonoBehaviour
         requiredGemsToUnlock = (remainingTimeToUnlockInMinutes + 1) * 3;
         unlockImmidiatelyText.text = "Unlock " + requiredGemsToUnlock + " Gems";
         popupPanel.SetActive(true);
+        selectedChestController = chestController;
     }
 
     public void onUnlockButtonPressed()
     {
-        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnChestUnlockPressedEventTrigger();
         popupPanel.SetActive(false);
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnChestUnlockPressedEventTrigger(selectedChestController);
     }
 
     public void onUnlockImmididiateButtonPressed()
     {
-        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnUnlockImmidiatelyPressedTrigger(requiredGemsToUnlock);
         popupPanel.SetActive(false);
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnUnlockImmidiatelyPressedTrigger(
+            requiredGemsToUnlock, selectedChestController);
     }
 }

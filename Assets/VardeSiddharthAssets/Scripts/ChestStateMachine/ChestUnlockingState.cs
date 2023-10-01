@@ -66,13 +66,12 @@ public class ChestUnlockingState : ChestBaseState
 
     public void OnChestUnlocked()
     {
-        //remove from queue
         chestController.OnChestUnlocked();
         chestTimerText.gameObject.SetActive(false);
     }
 
     public void OnChestButtonPressed()
     {
-        chestController.OnChestSelected();
+        chestController.OnChestSelected(timeToUnlock);
     }
 }

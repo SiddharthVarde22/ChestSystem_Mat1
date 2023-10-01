@@ -12,6 +12,8 @@ public class ChestSpawnerService : MonoBehaviour, IGameService
     Transform parentObjectOfChests;
     [SerializeField]
     int maxNumberOfChest = 4;
+    [SerializeField]
+    int costPerChest = 50;
 
     ChestObjectPool chestObjectPool;
 
@@ -52,7 +54,15 @@ public class ChestSpawnerService : MonoBehaviour, IGameService
 
         if(chestController != null)
         {
-            chestController.Enable(ChestsList_Scriptable.chestScriptableList[Random.Range(0, ChestsList_Scriptable.chestScriptableList.Count)]);
+            if(ServiceLocator.Instance.GetService<GameResoursesService>(TypesOfServices.Resources).UseCoins(costPerChest))
+            {
+                chestController.Enable(ChestsList_Scriptable.chestScriptableList[
+                    Random.Range(0, ChestsList_Scriptable.chestScriptableList.Count)]);
+            }
+            else
+            {
+                ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnNotEnoughResoursesTrigger();
+            }
         }
         else
         {

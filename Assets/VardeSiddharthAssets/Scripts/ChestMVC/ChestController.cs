@@ -41,26 +41,45 @@ public class ChestController
     public void OnChestSelected()
     {
         int timeToUnlock = (int)(chestModel.timeToUnlockInSeconds / 60);
-        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnChestSelectedEventTrigger(timeToUnlock);
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnChestSelectedEventTrigger(timeToUnlock, this);
     }
 
-    public void OnUnlockChestPressed()
+    public void OnChestSelected(float remainingTimeToUnlock)
     {
+        int gems = (int)(remainingTimeToUnlock / 60);
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnChestSelectedEventTrigger(gems, this);
+    }
+
+    public void OnUnlockChestPressed(ChestController chestController)
+    {
+        if(chestController != this)
+        {
+            return;
+        }
         ServiceLocator.Instance.GetService<QueueChestService>(TypesOfServices.ChestQueue).EnqueChest(this);
     }
 
     public void OnChestUnlocked()
     {
         ServiceLocator.Instance.GetService<QueueChestService>(TypesOfServices.ChestQueue).DequeChest();
+        ChangeState(StatesOfChest.Unlocked);
     }
 
-    public void OnUnlockImmidiatePressed(int numberOfGemsToUse)
+    public void OnUnlockImmidiatePressed(int numberOfGemsToUse, ChestController chestController)
     {
-        Debug.Log("Unlocking immidiately " + numberOfGemsToUse);
+        if(chestController != this)
+        {
+            return;
+        }
+
         //use gems
+        if(!ServiceLocator.Instance.GetService<GameResoursesService>(TypesOfServices.Resources).UseGems(numberOfGemsToUse))
+        {
+            return;
+        }
+
         //unqueue chest if queued
         //else change state
-
         if(!ServiceLocator.Instance.GetService<QueueChestService>(TypesOfServices.ChestQueue).DequeChest(this))
         {
             ChangeState(StatesOfChest.Unlocked);
@@ -70,7 +89,13 @@ public class ChestController
     public void OnChestCollected()
     {
         //collect reward
+        int gemsToAdd = Random.Range(chestModel.chestScriptable.minimumGems, chestModel.chestScriptable.maximumGems);
+        int coinsToAdd = Random.Range(chestModel.chestScriptable.minimumCoins, chestModel.chestScriptable.maximumCoins);
+
+        ServiceLocator.Instance.GetService<GameResoursesService>(TypesOfServices.Resources).AddGems(gemsToAdd);
+        ServiceLocator.Instance.GetService<GameResoursesService>(TypesOfServices.Resources).AddCoins(coinsToAdd);
         //change state to collected
+        ChangeState(StatesOfChest.Collected);
     }
 
     public float GetUnlockTime()
