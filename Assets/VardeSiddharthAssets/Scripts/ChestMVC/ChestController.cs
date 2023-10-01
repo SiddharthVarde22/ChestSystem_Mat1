@@ -7,6 +7,7 @@ public class ChestController
     ChestModel chestModel;
     ChestView chestView;
     ChestScriptableObject chestScriptableObject;
+
     public ChestController(ChestScriptableObject chestScriptableObject, ChestView chestView, Transform parent)
     {
         this.chestModel = new ChestModel(this, chestScriptableObject);
@@ -20,8 +21,22 @@ public class ChestController
         chestView.Disable();
     }
 
-    public void Enable()
+    public void Enable(ChestScriptableObject chestScriptableObject)
     {
-        chestView.EnableChest(chestScriptableObject.chestSprite);
+        this.chestScriptableObject = chestScriptableObject;
+        chestModel.ResetChestData(this.chestScriptableObject);
+        chestView.SetChestController(this);
+        chestView.EnableChest(this.chestScriptableObject.chestSprite);
+    }
+
+    public void ChangeState(StatesOfChest newState)
+    {
+        chestView.ChangeChestState(newState);
+    }
+
+    public void OnLockedChestSelected()
+    {
+        int timeToUnlock = (int)(chestModel.timeToUnlockInSeconds / 60);
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnChestSelectedEventTrigger(timeToUnlock);
     }
 }

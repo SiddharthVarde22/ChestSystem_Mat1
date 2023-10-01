@@ -6,6 +6,8 @@ public class EventsService : MonoBehaviour, IGameService
 {
     public event Action<int> OnGemsChangedEvent;
     public event Action<int> OnCoinsChangedEvent;
+    public event Action OnAllSlotsAreFilledEvent;
+    public event Action<int> OnChestSelectedEvent;
 
     private void OnEnable()
     {
@@ -29,5 +31,15 @@ public class EventsService : MonoBehaviour, IGameService
     public void OnCoinsChanged(int currentNumberOfCoins)
     {
         OnCoinsChangedEvent?.Invoke(currentNumberOfCoins);
+    }
+
+    public void OnAllChestSlotaAreFullEventTrigger()
+    {
+        OnAllSlotsAreFilledEvent?.Invoke();
+    }
+
+    public void OnChestSelectedEventTrigger(int remainingTimeToUnlockInMinutes)
+    {
+        OnChestSelectedEvent?.Invoke(remainingTimeToUnlockInMinutes);
     }
 }

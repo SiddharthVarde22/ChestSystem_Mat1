@@ -7,13 +7,13 @@ public class GameResoursesUi : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI coinsText, gemsText;
 
-    private void Start()
+    private void OnEnable()
     {
         ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnCoinsChangedEvent += ChangeCoinsText;
         ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnGemsChangedEvent += ChangeGemsText;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnCoinsChangedEvent -= ChangeCoinsText;
         ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnGemsChangedEvent -= ChangeGemsText;

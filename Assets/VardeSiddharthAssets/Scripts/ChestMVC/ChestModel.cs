@@ -2,9 +2,8 @@
 public class ChestModel
 {
     ChestController chestController;
-    ChestScriptableObject chestScriptable;
-
-    float timeToUnlock;
+    public ChestScriptableObject chestScriptable;
+    public float timeToUnlockInSeconds;
 
     public ChestModel(ChestController chestController, ChestScriptableObject chestScriptableObject)
     {
@@ -12,9 +11,9 @@ public class ChestModel
         ResetChestData(chestScriptableObject);
     }
 
-    void ResetChestData(ChestScriptableObject chestScriptableObject)
+    public void ResetChestData(ChestScriptableObject chestScriptableObject)
     {
         this.chestScriptable = chestScriptableObject;
-        timeToUnlock = chestScriptable.timeInMinutes * 60;
+        timeToUnlockInSeconds = chestScriptable.timeInMinutes * 60;
     }
 }

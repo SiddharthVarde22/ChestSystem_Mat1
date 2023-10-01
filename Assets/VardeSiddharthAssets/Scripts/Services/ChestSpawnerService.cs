@@ -52,11 +52,11 @@ public class ChestSpawnerService : MonoBehaviour, IGameService
 
         if(chestController != null)
         {
-            chestController.Enable();
+            chestController.Enable(ChestsList_Scriptable.chestScriptableList[Random.Range(0, ChestsList_Scriptable.chestScriptableList.Count)]);
         }
         else
         {
-            // show popup about all the slots are full
+            ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnAllChestSlotaAreFullEventTrigger();
         }
     }
 }
