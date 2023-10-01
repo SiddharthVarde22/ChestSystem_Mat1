@@ -19,6 +19,9 @@ public class PopupPanelUI : MonoBehaviour
         closePopupButton.onClick.AddListener(ClosePopupPanelPressed);
         ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnAllSlotsAreFilledEvent += OnChestSlotsFilled;
         ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnChestSelectedEvent += OnChestSelectedEventTriggered;
+
+        unlockButton.onClick.AddListener(onUnlockButtonPressed);
+        unlockImmidiateButton.onClick.AddListener(onUnlockImmididiateButtonPressed);
     }
 
     public void OnChestSlotsFilled()
@@ -49,5 +52,17 @@ public class PopupPanelUI : MonoBehaviour
         requiredGemsToUnlock = (remainingTimeToUnlockInMinutes + 1) * 3;
         unlockImmidiatelyText.text = "Unlock " + requiredGemsToUnlock + " Gems";
         popupPanel.SetActive(true);
+    }
+
+    public void onUnlockButtonPressed()
+    {
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnChestUnlockPressedEventTrigger();
+        popupPanel.SetActive(false);
+    }
+
+    public void onUnlockImmididiateButtonPressed()
+    {
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnUnlockImmidiatelyPressedTrigger(requiredGemsToUnlock);
+        popupPanel.SetActive(false);
     }
 }

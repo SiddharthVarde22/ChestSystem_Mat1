@@ -8,6 +8,8 @@ public class EventsService : MonoBehaviour, IGameService
     public event Action<int> OnCoinsChangedEvent;
     public event Action OnAllSlotsAreFilledEvent;
     public event Action<int> OnChestSelectedEvent;
+    public event Action unlockChestPressedEvent;
+    public event Action<int> unlockImmidiatelyPressedEvent;
 
     private void OnEnable()
     {
@@ -41,5 +43,15 @@ public class EventsService : MonoBehaviour, IGameService
     public void OnChestSelectedEventTrigger(int remainingTimeToUnlockInMinutes)
     {
         OnChestSelectedEvent?.Invoke(remainingTimeToUnlockInMinutes);
+    }
+
+    public void OnChestUnlockPressedEventTrigger()
+    {
+        unlockChestPressedEvent?.Invoke();
+    }
+
+    public void OnUnlockImmidiatelyPressedTrigger(int numberOfGemsToUse)
+    {
+        unlockImmidiatelyPressedEvent?.Invoke(numberOfGemsToUse);
     }
 }

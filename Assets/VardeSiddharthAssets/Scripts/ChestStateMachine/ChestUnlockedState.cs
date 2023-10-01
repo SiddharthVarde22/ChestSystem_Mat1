@@ -1,25 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
 
-public class ChestLockedState : ChestBaseState
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class ChestUnlockedState : ChestBaseState
 {
-    TextMeshProUGUI chestStateText;
     Button chestButton;
     ChestController chestController;
-    public ChestLockedState(TextMeshProUGUI chestStateText, Button chestButton, ChestController chestController)
+    TextMeshProUGUI chestStateText;
+
+    public ChestUnlockedState(Button chestButton, ChestController chestController, TextMeshProUGUI chestStateText)
     {
-        this.chestStateText = chestStateText;
         this.chestButton = chestButton;
         this.chestController = chestController;
+        this.chestStateText = chestStateText;
     }
-
     public override void OnEnterState()
     {
-        chestStateText.text = "Locked";
         chestButton.onClick.AddListener(OnChestButtonPressed);
+        chestStateText.text = "Unlocked";
     }
 
     public override void OnExitState()
@@ -29,12 +28,11 @@ public class ChestLockedState : ChestBaseState
 
     public override void Tick()
     {
-        //there is nothing to do here
+        //nothing to do here
     }
 
     public void OnChestButtonPressed()
     {
-        //chest popup
-        chestController.OnChestSelected();
+        chestController.OnChestCollected();
     }
 }

@@ -25,10 +25,13 @@ public class ChestStateMatchineBehaviour : MonoBehaviour
                 currentChestState = new ChestLockedState(chestStateText, chestButton, chestController);
                 break;
             case StatesOfChest.Unlocking:
+                currentChestState = new ChestUnlockingState(1, chestStateText, chestController, chestButton);
                 break;
             case StatesOfChest.Unlocked:
+                currentChestState = new ChestUnlockedState(chestButton, chestController, chestStateText);
                 break;
             case StatesOfChest.Collected:
+                currentChestState = new ChestCollectedState(chestController);
                 break;
         }
         currentChestState?.OnEnterState();

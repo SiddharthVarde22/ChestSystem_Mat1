@@ -18,6 +18,8 @@ public class ChestController
 
     public void Disable()
     {
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).unlockChestPressedEvent -= OnUnlockChestPressed;
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).unlockImmidiatelyPressedEvent -= OnUnlockImmidiatePressed;
         chestView.Disable();
     }
 
@@ -27,6 +29,8 @@ public class ChestController
         chestModel.ResetChestData(this.chestScriptableObject);
         chestView.SetChestController(this);
         chestView.EnableChest(this.chestScriptableObject.chestSprite);
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).unlockChestPressedEvent += OnUnlockChestPressed;
+        ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).unlockImmidiatelyPressedEvent += OnUnlockImmidiatePressed;
     }
 
     public void ChangeState(StatesOfChest newState)
@@ -34,9 +38,43 @@ public class ChestController
         chestView.ChangeChestState(newState);
     }
 
-    public void OnLockedChestSelected()
+    public void OnChestSelected()
     {
         int timeToUnlock = (int)(chestModel.timeToUnlockInSeconds / 60);
         ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnChestSelectedEventTrigger(timeToUnlock);
+    }
+
+    public void OnUnlockChestPressed()
+    {
+        ServiceLocator.Instance.GetService<QueueChestService>(TypesOfServices.ChestQueue).EnqueChest(this);
+    }
+
+    public void OnChestUnlocked()
+    {
+        ServiceLocator.Instance.GetService<QueueChestService>(TypesOfServices.ChestQueue).DequeChest();
+    }
+
+    public void OnUnlockImmidiatePressed(int numberOfGemsToUse)
+    {
+        Debug.Log("Unlocking immidiately " + numberOfGemsToUse);
+        //use gems
+        //unqueue chest if queued
+        //else change state
+
+        if(!ServiceLocator.Instance.GetService<QueueChestService>(TypesOfServices.ChestQueue).DequeChest(this))
+        {
+            ChangeState(StatesOfChest.Unlocked);
+        }
+    }
+
+    public void OnChestCollected()
+    {
+        //collect reward
+        //change state to collected
+    }
+
+    public float GetUnlockTime()
+    {
+        return chestModel.timeToUnlockInSeconds;
     }
 }

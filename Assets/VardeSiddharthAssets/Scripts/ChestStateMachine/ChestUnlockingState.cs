@@ -1,0 +1,78 @@
+
+using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
+
+public class ChestUnlockingState : ChestBaseState
+{
+    ChestController chestController;
+    TextMeshProUGUI chestTimerText;
+    int timeIntervalToUpdateText;
+    float timeToUnlock;
+    float currentTime;
+
+    Button chestButton;
+
+    public ChestUnlockingState(int timeIntervalToUpdateText, TextMeshProUGUI chestTimerText,
+        ChestController chestController, Button chestButton)
+    {
+        this.chestTimerText = chestTimerText;
+        this.timeIntervalToUpdateText = timeIntervalToUpdateText;
+        this.chestController = chestController;
+        this.timeToUnlock = chestController.GetUnlockTime();
+        currentTime = timeIntervalToUpdateText;
+        this.chestButton = chestButton;
+    }
+
+    public override void OnEnterState()
+    {
+        UpdateTimerText();
+        chestButton.onClick.AddListener(OnChestButtonPressed);
+    }
+
+    public override void OnExitState()
+    {
+        chestButton.onClick.RemoveListener(OnChestButtonPressed);
+    }
+
+    public override void Tick()
+    {
+        if(timeToUnlock <= 0)
+        {
+            return;
+        }
+
+        currentTime -= Time.deltaTime;
+        if(currentTime <= 0)
+        {
+            timeToUnlock -= timeIntervalToUpdateText;
+            currentTime = timeIntervalToUpdateText;
+            if(timeToUnlock <= 0)
+            {
+                timeToUnlock = 0;
+                OnChestUnlocked();
+            }
+            UpdateTimerText();
+        }
+    }
+
+    public void UpdateTimerText()
+    {
+        int minutes = (int)(timeToUnlock / 60);
+        int seconds = (int)(timeToUnlock % 60);
+
+        chestTimerText.text = minutes + " : " + seconds;
+    }
+
+    public void OnChestUnlocked()
+    {
+        //remove from queue
+        chestController.OnChestUnlocked();
+        chestTimerText.gameObject.SetActive(false);
+    }
+
+    public void OnChestButtonPressed()
+    {
+        chestController.OnChestSelected();
+    }
+}
