@@ -5,9 +5,9 @@ using TMPro;
 
 public class ChestUnlockedState : ChestBaseState
 {
-    Button chestButton;
-    ChestController chestController;
-    TextMeshProUGUI chestStateText;
+    private Button chestButton;
+    private ChestController chestController;
+    private TextMeshProUGUI chestStateText;
 
     public ChestUnlockedState(Button chestButton, ChestController chestController, TextMeshProUGUI chestStateText)
     {

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ChestCollectedState : ChestBaseState
 {
-    ChestController chestController;
+    private ChestController chestController;
     public ChestCollectedState(ChestController chestController)
     {
         this.chestController = chestController;

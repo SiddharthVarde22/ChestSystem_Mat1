@@ -1,7 +1,7 @@
 
 public class ChestModel
 {
-    ChestController chestController;
+    private ChestController chestController;
     public ChestScriptableObject chestScriptable;
     public float timeToUnlockInSeconds;
 

@@ -1,5 +1,5 @@
 
 public interface IGameService
 {
-    void RegisterService(TypesOfServices type, IGameService gameService);
+    public void RegisterService(TypesOfServices type, IGameService gameService);
 }

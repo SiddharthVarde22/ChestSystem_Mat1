@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ServiceLocator : GenericSingleton<ServiceLocator>
 {
-    Dictionary<TypesOfServices, IGameService> services;
+    private Dictionary<TypesOfServices, IGameService> services;
 
     protected override void Awake()
     {

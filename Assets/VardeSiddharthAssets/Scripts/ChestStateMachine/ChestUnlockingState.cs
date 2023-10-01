@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class ChestUnlockingState : ChestBaseState
 {
-    ChestController chestController;
-    TextMeshProUGUI chestTimerText;
-    int timeIntervalToUpdateText;
-    float timeToUnlock;
-    float currentTime;
+    private ChestController chestController;
+    private TextMeshProUGUI chestTimerText;
+    private int timeIntervalToUpdateText;
+    private float timeToUnlock;
+    private float currentTime;
 
-    Button chestButton;
+    private Button chestButton;
 
     public ChestUnlockingState(int timeIntervalToUpdateText, TextMeshProUGUI chestTimerText,
         ChestController chestController, Button chestButton)

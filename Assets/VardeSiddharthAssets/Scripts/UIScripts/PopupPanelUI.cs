@@ -6,15 +6,15 @@ using TMPro;
 public class PopupPanelUI : MonoBehaviour
 {
     [SerializeField]
-    GameObject popupPanel;
+    private GameObject popupPanel;
     [SerializeField]
-    TextMeshProUGUI popupText, unlockImmidiatelyText;
+    private TextMeshProUGUI popupText, unlockImmidiatelyText;
     [SerializeField]
-    Button unlockButton, unlockImmidiateButton, closePopupButton;
+    private Button unlockButton, unlockImmidiateButton, closePopupButton;
 
-    int requiredGemsToUnlock = 0;
+    private int requiredGemsToUnlock = 0;
 
-    ChestController selectedChestController;
+    private ChestController selectedChestController;
 
     private void Start()
     {

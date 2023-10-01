@@ -4,7 +4,7 @@ using UnityEngine;
 public class SpawnChestUI : MonoBehaviour
 {
     [SerializeField]
-    Button spawnChestButton;
+    private Button spawnChestButton;
 
     // Start is called before the first frame update
     void Start()

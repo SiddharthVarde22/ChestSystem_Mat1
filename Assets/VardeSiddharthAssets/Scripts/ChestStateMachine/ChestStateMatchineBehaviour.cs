@@ -5,11 +5,11 @@ using TMPro;
 public class ChestStateMatchineBehaviour : MonoBehaviour
 {
     [SerializeField]
-    Button chestButton;
+    private Button chestButton;
     [SerializeField]
-    TextMeshProUGUI chestStateText;
+    private TextMeshProUGUI chestStateText;
 
-    ChestBaseState currentChestState = null;
+    private ChestBaseState currentChestState = null;
 
     public void ChangeChestState(StatesOfChest stateOfChest, ChestController chestController)
     {

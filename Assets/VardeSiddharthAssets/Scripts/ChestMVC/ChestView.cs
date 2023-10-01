@@ -4,15 +4,15 @@ using UnityEngine.UI;
 
 public class ChestView : MonoBehaviour
 {
-    ChestController chestController;
+    private ChestController chestController;
 
     [SerializeField]
-    Image chestImage;
+    private Image chestImage;
 
     [SerializeField]
-    GameObject chestVisual;
+    private GameObject chestVisual;
     [SerializeField]
-    ChestStateMatchineBehaviour chestStateMachine;
+    private ChestStateMatchineBehaviour chestStateMachine;
 
     public void SetChestController(ChestController chestController)
     {

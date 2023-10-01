@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class ChestLockedState : ChestBaseState
 {
-    TextMeshProUGUI chestStateText;
-    Button chestButton;
-    ChestController chestController;
+    private TextMeshProUGUI chestStateText;
+    private Button chestButton;
+    private ChestController chestController;
     public ChestLockedState(TextMeshProUGUI chestStateText, Button chestButton, ChestController chestController)
     {
         this.chestStateText = chestStateText;
@@ -34,7 +34,6 @@ public class ChestLockedState : ChestBaseState
 
     public void OnChestButtonPressed()
     {
-        //chest popup
         chestController.OnChestSelected();
     }
 }

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ChestController
 {
-    ChestModel chestModel;
-    ChestView chestView;
-    ChestScriptableObject chestScriptableObject;
+    private ChestModel chestModel;
+    private ChestView chestView;
+    private ChestScriptableObject chestScriptableObject;
 
     public ChestController(ChestScriptableObject chestScriptableObject, ChestView chestView, Transform parent)
     {

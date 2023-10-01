@@ -5,17 +5,17 @@ using UnityEngine;
 public class ChestSpawnerService : MonoBehaviour, IGameService
 {
     [SerializeField]
-    ChestView chestView;
+    private ChestView chestView;
     [SerializeField]
-    ChestsList_ScriptableObject ChestsList_Scriptable;
+    private ChestsList_ScriptableObject ChestsList_Scriptable;
     [SerializeField]
-    Transform parentObjectOfChests;
+    private Transform parentObjectOfChests;
     [SerializeField]
-    int maxNumberOfChest = 4;
+    private int maxNumberOfChest = 4;
     [SerializeField]
-    int costPerChest = 50;
+    private int costPerChest = 50;
 
-    ChestObjectPool chestObjectPool;
+    private ChestObjectPool chestObjectPool;
 
     public void RegisterService(TypesOfServices type, IGameService gameService)
     {

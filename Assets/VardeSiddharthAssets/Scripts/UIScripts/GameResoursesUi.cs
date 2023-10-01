@@ -5,7 +5,7 @@ using TMPro;
 public class GameResoursesUi : MonoBehaviour
 {
     [SerializeField]
-    TextMeshProUGUI coinsText, gemsText;
+    private TextMeshProUGUI coinsText, gemsText;
 
     private void OnEnable()
     {
@@ -21,11 +21,11 @@ public class GameResoursesUi : MonoBehaviour
 
     void ChangeCoinsText(int value)
     {
-        coinsText.text = "Coins :- " + value;
+        coinsText.text = value.ToString();
     }
 
     void ChangeGemsText(int value)
     {
-        gemsText.text = "Gems :- " + value;
+        gemsText.text = value.ToString();
     }
 }

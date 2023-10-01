@@ -9,7 +9,8 @@ public class ChestObjectPool : IGameService
         public ChestController chestController;
         public bool isActive;
     }
-    List<ChestPoolData> chestPool;
+    
+    private List<ChestPoolData> chestPool;
 
     public ChestObjectPool()
     {

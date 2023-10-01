@@ -5,10 +5,9 @@ using UnityEngine;
 public class QueueChestService : MonoBehaviour, IGameService
 {
     [SerializeField]
-    int maxNumberOfChestToEnque = 2;
+    private int maxNumberOfChestToEnque = 2;
 
-    //Queue<ChestController> unlockingChestsQueue = new Queue<ChestController>();
-    List<ChestController> unlockingChestsQueue = new List<ChestController>();
+    private List<ChestController> unlockingChestsQueue = new List<ChestController>();
 
     public void RegisterService(TypesOfServices type, IGameService gameService)
     {
@@ -24,18 +23,15 @@ public class QueueChestService : MonoBehaviour, IGameService
     {
         if(unlockingChestsQueue.Count <= 0)
         {
-            //unlockingChestsQueue.Enqueue(chestController);
             unlockingChestsQueue.Add(chestController);
             chestController.ChangeState(StatesOfChest.Unlocking);
         }
         else if (unlockingChestsQueue.Count < maxNumberOfChestToEnque)
         {
-            //unlockingChestsQueue.Enqueue(chestController);
             unlockingChestsQueue.Add(chestController);
         }
         else
         {
-            //show popup
             ServiceLocator.Instance.GetService<EventsService>(TypesOfServices.Events).OnQueueIsFullEventTrigger();
         }
     }
