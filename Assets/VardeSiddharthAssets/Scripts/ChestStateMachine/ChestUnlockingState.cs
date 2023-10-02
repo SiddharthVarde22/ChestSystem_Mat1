@@ -67,7 +67,6 @@ public class ChestUnlockingState : ChestBaseState
     public void OnChestUnlocked()
     {
         chestController.OnChestUnlocked();
-        chestTimerText.gameObject.SetActive(false);
     }
 
     public void OnChestButtonPressed()
