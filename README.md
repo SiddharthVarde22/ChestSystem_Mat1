@@ -9,12 +9,12 @@ Unlock them Immidiately using Gems, and Collect them after unlocking.
 [Chest System Gameplay Video](https://youtu.be/8ekAFPptKDQ)
 
 ## Patterns Used
-- Service Locator
-- Singleton
-- Observer
-- State machine
-- MVC
-- Object Pooling
+- Service Locator - Used to hold all the services required in a Level
+- Generic Singleton - Used to create Service locator as a singleton
+- Observer - Used to crate Popup system like All Slots Are Full, Not enough resourses, Queue is full
+- State machine - Used to generate Finite State Machine for Chest
+- MVC - Used to create Chest Slot behaviour
+- Object Pooling - Used to store and retrieve chest objects in the scene
 
 ### Functionalities
 - Player can spawn only 4 Chest (Changable)
